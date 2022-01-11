@@ -1,0 +1,21 @@
+server:
+  port: 8086
+
+application:
+  new-post-api-properties:
+    url: http://api.novaposhta.ua/v2.0/json
+    api-key: 5a4df0d902e08578ee2d2049f63aae17
+
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+    enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database: postgresql
+  datasource:
+    url: jdbc:postgresql://localhost:54321/postgres
+    username: postgres
+    password: asdasd123
