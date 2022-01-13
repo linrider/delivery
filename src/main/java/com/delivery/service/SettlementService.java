@@ -15,16 +15,15 @@ import java.util.stream.Collectors;
 public class SettlementService {
     private final SettlementRepository settlementRepository;
     private final NewPostClient newPostClient;
-//    private final SettlementMapper settlementMapper;
+    private final SettlementMapper settlementMapper;
 
     public void refresh() {
         int page = 1;
         boolean isLoading = true;
         while (isLoading) {
-//            List<Settlement> settlementsList = newPostClient.getSettlementsList(page).stream()
-//                    .map(settlementMapper::toEntity)
-//                    .collect(Collectors.toList());
-            List<Settlement> settlementsList = List.of();
+            List<Settlement> settlementsList = newPostClient.getSettlementsList(page).stream()
+                    .map(settlementMapper::toEntity)
+                    .collect(Collectors.toList());
             if (settlementsList.isEmpty()) {
                 isLoading = false;
             }
