@@ -7,6 +7,8 @@ application:
     api-key: 5a4df0d902e08578ee2d2049f63aae17
 
 spring:
+  mustache:
+    expose-request-attributes: true
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
     enabled: true

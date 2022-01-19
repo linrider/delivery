@@ -5,6 +5,7 @@ import com.delivery.repository.SettlementRepository;
 import com.delivery.service.mapper.SettlementMapper;
 import com.delivery.web.client.NewPostClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SettlementService {
+    @Autowired
     private final SettlementRepository settlementRepository;
     private final NewPostClient newPostClient;
     private final SettlementMapper settlementMapper;

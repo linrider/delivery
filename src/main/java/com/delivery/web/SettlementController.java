@@ -5,10 +5,14 @@ import com.delivery.service.SettlementService;
 import com.delivery.web.client.NewPostClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/settlements")
+@RestController
+@RequestMapping("/settlements")
 @RequiredArgsConstructor
 public class SettlementController {
     private final SettlementService settlementService;
@@ -16,7 +20,14 @@ public class SettlementController {
     @GetMapping("/refresh")
     public String refreshSettlements() {
         settlementService.refresh();
-        return "List of settlements was refreshed.";
+        return "refresh";
+    }
+
+    @GetMapping("/greeting")
+    public String greeting(
+            @RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "greeting";
     }
 
 //    @GetMapping("/cities")
