@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="00000000000001" author="lazin-v">
+        <modifyDataType tableName="settlements_np" columnName="area_description" newDataType="varchar2(100)"/>
+        <modifyDataType tableName="settlements_np" columnName="area_description_ru" newDataType="varchar2(100)"/>
+        <modifyDataType tableName="settlements_np" columnName="description" newDataType="varchar2(100)"/>
+        <modifyDataType tableName="settlements_np" columnName="description_ru" newDataType="varchar2(100)"/>
+        <modifyDataType tableName="settlements_np" columnName="ref" newDataType="varchar2(100)"/>
+        <modifyDataType tableName="settlements_np" columnName="settlement_type_description" newDataType="varchar2(100)"/>
+        <modifyDataType tableName="settlements_np" columnName="settlement_type_description_ru" newDataType="varchar2(100)"/>
+    </changeSet>
+</databaseChangeLog>

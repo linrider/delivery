@@ -1,15 +1,17 @@
 package com.delivery.web;
 
 import com.delivery.config.ApplicationProperties;
+import com.delivery.entity.Settlement;
 import com.delivery.service.SettlementService;
 import com.delivery.web.client.NewPostClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/settlements")
@@ -20,18 +22,16 @@ public class SettlementController {
     @GetMapping("/refresh")
     public String refreshSettlements() {
         settlementService.refresh();
-        return "refresh";
+        return "DB has refreshed.";
     }
 
-    @GetMapping("/greeting")
-    public String greeting(
-            @RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
+    @GetMapping()
+    public String getDeliveryDate(@RequestParam String citySender, @RequestParam String cityRecipient, @RequestParam LocalDate date) {
+        return settlementService.getDeliveryDate(citySender, cityRecipient, date);
     }
 
-//    @GetMapping("/cities")
-//    public String showCities() throws JsonProcessingException {
-//        return newPostClient.getSettlementsList(1).toString();
-//    }
+    @GetMapping("/search")
+    public List<Settlement> searchCity(@RequestParam String search) {
+        return settlementService.searchCity(search);
+    }
 }

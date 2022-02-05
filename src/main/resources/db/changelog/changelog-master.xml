@@ -7,5 +7,7 @@
       http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
 
     <include file="db/changelog/changeset/create-sattlement-table.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/changeset/20220119190000_add_hibernate_sequence.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/changeset/20220119221900_encrease_textfields_length.xml" relativeToChangelogFile="false"/>
 <!--    сюда ещё действия добавлять -->
 </databaseChangeLog>

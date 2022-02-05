@@ -4,28 +4,29 @@ import com.delivery.config.ApplicationProperties;
 import com.delivery.web.client.model.NewPostRequest;
 import com.delivery.web.client.model.NewPostResponse;
 import com.delivery.web.client.model.SettlementModel;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class NewPostClient {
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final ApplicationProperties applicationProperties;
+    private final RestTemplate restTemplate;
+    private final String baseUrl;
+    private final String apiKey;
 
-    private NewPostResponse sendPost(int pageNumber) {
-        String url = applicationProperties.getNewPostApiProperties().getUrl() + "/getSettlements";
-        NewPostRequest newPostRequest = new NewPostRequest("AddressGeneral", "getSettlements",
-                applicationProperties.getNewPostApiProperties().getApiKey(), new NewPostRequest.MethodProperties(pageNumber));
+    public NewPostClient(RestTemplate restTemplate, ApplicationProperties applicationProperties) {
+        this.restTemplate = restTemplate;
+        this.baseUrl = applicationProperties.getNewPostApiProperties().getUrl();
+        this.apiKey = applicationProperties.getNewPostApiProperties().getApiKey();
+    }
+
+//    private final ApplicationProperties applicationProperties;
+
+    private NewPostResponse sendPost(NewPostRequest newPostRequest) {
+        String url = UriComponentsBuilder.fromUriString(baseUrl).path(newPostRequest.getCalledMethod()).toUriString();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<NewPostResponse> response = restTemplate.exchange(
@@ -34,11 +35,16 @@ public class NewPostClient {
     }
 
     public List<SettlementModel> getSettlementsList(int page) {
-
-        NewPostResponse response = sendPost(page);
+        NewPostRequest newPostRequest = NewPostRequest.getSettlements(page);
+        NewPostResponse response = sendPost(newPostRequest);
         if (!response.isSuccess()) {
             throw new IllegalArgumentException("" + response.getErrors());
         }
         return response.getData();
+    }
+
+    public String getDeliveryDate(String citySender, String cityRecipient, String dateTime) {
+        NewPostRequest newPostRequest = NewPostRequest.getDocumentDeliveryDate(citySender, cityRecipient, dateTime);
+        return sendPost(newPostRequest).toString();
     }
 }

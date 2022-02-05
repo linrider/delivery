@@ -17,7 +17,9 @@ spring:
     hibernate:
       ddl-auto: none
     database: postgresql
+    show-sql: false
   datasource:
     url: jdbc:postgresql://localhost:54321/postgres
     username: postgres
     password: asdasd123
+
