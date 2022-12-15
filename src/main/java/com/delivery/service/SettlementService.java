@@ -2,8 +2,11 @@ package com.delivery.service;
 
 import com.delivery.entity.Settlement;
 import com.delivery.repository.SettlementRepository;
+import com.delivery.service.dto.DeliveryDateDTO;
+import com.delivery.service.mapper.DeliveryDateMapper;
 import com.delivery.service.mapper.SettlementMapper;
 import com.delivery.web.client.NewPostClient;
+import com.delivery.web.client.model.SettlementModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
@@ -22,6 +25,7 @@ public class SettlementService {
     private final SettlementRepository settlementRepository;
     private final NewPostClient newPostClient;
     private final SettlementMapper settlementMapper;
+    private final DeliveryDateMapper deliveryDateMapper;
 
     @Transactional
     public void refresh() {
@@ -46,11 +50,10 @@ public class SettlementService {
         log.info("Finish refresh {}, wTime = {}", totalCount, stopWatch.getTime());
     }
 
-
-
-
-    public String getDeliveryDate(String citySender, String cityRecipient, LocalDate date) {
-        return newPostClient.getDeliveryDate(citySender, cityRecipient, date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+    public DeliveryDateDTO getDeliveryDate(String citySender, String cityRecipient, LocalDate date) {
+        return newPostClient.getDeliveryDate(citySender, cityRecipient, date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))).stream()
+                .map(SettlementModel::getDeliveryDate)
+                .map(deliveryDateMapper::toDto).findFirst().orElseThrow();
     }
 
     public List<Settlement> searchCity(String search) {

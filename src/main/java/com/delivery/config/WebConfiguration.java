@@ -1,5 +1,6 @@
 package com.delivery.config;
 
+import com.delivery.service.mapper.DeliveryDateMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;

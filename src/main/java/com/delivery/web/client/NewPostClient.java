@@ -1,6 +1,7 @@
 package com.delivery.web.client;
 
 import com.delivery.config.ApplicationProperties;
+import com.delivery.service.mapper.DeliveryDateMapper;
 import com.delivery.web.client.model.NewPostRequest;
 import com.delivery.web.client.model.NewPostResponse;
 import com.delivery.web.client.model.SettlementModel;
@@ -23,9 +24,9 @@ public class NewPostClient {
         this.apiKey = applicationProperties.getNewPostApiProperties().getApiKey();
     }
 
-//    private final ApplicationProperties applicationProperties;
 
     private NewPostResponse sendPost(NewPostRequest newPostRequest) {
+        newPostRequest.setApiKey(apiKey);
         String url = UriComponentsBuilder.fromUriString(baseUrl).path(newPostRequest.getCalledMethod()).toUriString();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -43,8 +44,12 @@ public class NewPostClient {
         return response.getData();
     }
 
-    public String getDeliveryDate(String citySender, String cityRecipient, String dateTime) {
+    public List<SettlementModel> getDeliveryDate(String citySender, String cityRecipient, String dateTime) {
         NewPostRequest newPostRequest = NewPostRequest.getDocumentDeliveryDate(citySender, cityRecipient, dateTime);
-        return sendPost(newPostRequest).toString();
+        NewPostResponse response = sendPost(newPostRequest);
+        if (!response.isSuccess()) {
+            throw new IllegalArgumentException("" + response.getErrors());
+        }
+        return response.getData();
     }
 }

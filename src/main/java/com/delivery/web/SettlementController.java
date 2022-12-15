@@ -1,20 +1,17 @@
 package com.delivery.web;
 
-import com.delivery.config.ApplicationProperties;
 import com.delivery.entity.Settlement;
 import com.delivery.service.SettlementService;
-import com.delivery.web.client.NewPostClient;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.delivery.service.dto.DeliveryDateDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/settlements")
 @RequiredArgsConstructor
 public class SettlementController {
     private final SettlementService settlementService;
@@ -25,8 +22,9 @@ public class SettlementController {
         return "DB has refreshed.";
     }
 
-    @GetMapping()
-    public String getDeliveryDate(@RequestParam String citySender, @RequestParam String cityRecipient, @RequestParam LocalDate date) {
+    @GetMapping("/getdate")
+    public DeliveryDateDTO getDeliveryDate(@RequestParam String citySender, @RequestParam String cityRecipient,
+                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return settlementService.getDeliveryDate(citySender, cityRecipient, date);
     }
 

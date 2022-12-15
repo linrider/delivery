@@ -9,11 +9,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SettlementRepository extends CrudRepository<Settlement, Long> {
+
     @Modifying
     @Query(value = "truncate table settlements_np", nativeQuery = true)
     void truncate();
 
-    @Query(value = "select * from settlements_np c where lower(description) like :name or lower(description_ru) like :name", nativeQuery = true)
-    public List<Settlement> findAllByDescriptionLikeAndDescriptionRuLikeInLowerCase(@Param("name") String settlementName);
+//    @Query(value = "select * from settlements_np c where lower(description) like :name or lower(description_ru) like :name", nativeQuery = true)
+    @Query(value = "select s from Settlement s where lower(s.description) like %:name% or lower(s.descriptionRu) like %:name%")
+    List<Settlement> findAllByDescriptionLikeAndDescriptionRuLikeInLowerCase(@Param("name") String settlementName);
 
 }

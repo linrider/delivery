@@ -3,7 +3,7 @@ server:
 
 application:
   new-post-api-properties:
-    url: http://api.novaposhta.ua/v2.0/json
+    url: http://api.novaposhta.ua/v2.0/json/
     api-key: 5a4df0d902e08578ee2d2049f63aae17
 
 spring:

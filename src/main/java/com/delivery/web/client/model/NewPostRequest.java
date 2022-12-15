@@ -29,15 +29,18 @@ public class NewPostRequest {
         private String cityRecipient;
         @JsonProperty("DateTime")
         private String dateTime;
+        @JsonProperty("ServiceType")
+        private String serviceType;
 
         public MethodProperties(int page) {
             this.page = page;
         }
 
-        public MethodProperties(String citySender, String cityRecipient, String dateTime) {
+        public MethodProperties(String citySender, String cityRecipient, String dateTime, String serviceType) {
             this.citySender = citySender;
             this.cityRecipient = cityRecipient;
             this.dateTime = dateTime;
+            this.serviceType = serviceType;
         }
 
     }
@@ -48,7 +51,7 @@ public class NewPostRequest {
     }
     public static NewPostRequest getDocumentDeliveryDate(String citySender, String cityRecipient, String dateTime ) {
         return new NewPostRequest("InternetDocument", "getDocumentDeliveryDate",
-                new MethodProperties(citySender, cityRecipient, dateTime));
+                new MethodProperties(citySender, cityRecipient, dateTime, "WarehouseWarehouse"));
     }
 
 }
