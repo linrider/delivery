@@ -4,7 +4,7 @@ server:
 application:
   new-post-api-properties:
     url: http://api.novaposhta.ua/v2.0/json
-    api-key: 5a4df0d902e08578ee2d2049f63aae17
+    api-key: ${NEW_POST_KEY}
 
 spring:
   liquibase:
@@ -16,6 +16,6 @@ spring:
       ddl-auto: none
     database: postgresql
   datasource:
-    url: jdbc:postgresql://localhost:54321/postgres
+    url: jdbc:postgresql://localhost:5432/delivery?serverTimezone='Europe/Kiev'
     username: postgres
     password: asdasd123
